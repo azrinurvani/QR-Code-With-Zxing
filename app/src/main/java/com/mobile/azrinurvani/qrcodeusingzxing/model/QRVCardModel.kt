@@ -1,5 +1,6 @@
 package com.mobile.azrinurvani.qrcodeusingzxing.model
 
+//TODO 7
 class QRVCardModel {
     var type : String? =null
     var name:String? =null

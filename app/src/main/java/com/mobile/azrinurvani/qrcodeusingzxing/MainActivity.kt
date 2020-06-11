@@ -1,8 +1,10 @@
 package com.mobile.azrinurvani.qrcodeusingzxing
 
 import android.Manifest
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.zxing.Result
 import com.karumi.dexter.Dexter
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        //TODO 3
         Dexter.withActivity(this)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(object : PermissionListener{
@@ -46,12 +48,13 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
             }).check()
     }
-
+    //TODO 4
     override fun handleResult(rawResult: Result?) {
 //        txt_result.text = rawResult?.text -->use this if just handle text value from QR Code
         processRawResult(rawResult?.text)
     }
 
+    //TODO 8
     private fun processRawResult(text: String?) {
         if (text?.startsWith("BEGIN:")!!){
             val tokens = text?.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -103,6 +106,12 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
             txt_result.text = qrGeoModel.lat + " / "+qrGeoModel.lng
         }else{
             txt_result.text = text!!
+
+            val index= intent.getIntExtra("index",0)
+            val returnIntent = Intent()
+            returnIntent.putExtra("value",text.toString())
+            setResult(index,returnIntent)
+            finish()
         }
     }
 }
